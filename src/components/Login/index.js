@@ -11,7 +11,7 @@ class Login extends Component {
   state = {
     username: '',
     password: '',
-    displayPassword: false,
+    //  displayPassword: false,
     errorMsg: '',
     displayErrorMsg: false,
   }
@@ -62,8 +62,12 @@ class Login extends Component {
     )
   }
 
-  onSuccessfulLogin = props => {
-    const {history} = props
+  onSuccessfulLogin = jwtToken => {
+    const {history} = this.props
+    Cookies.set('jwt_token', jwtToken, {
+      expires: 1,
+    })
+
     history.replace('/')
   }
 
@@ -71,7 +75,7 @@ class Login extends Component {
     this.setState({displayErrorMsg: true, errorMsg})
   }
 
-  onSubmit = async event => {
+  onSubmitForm = async event => {
     event.preventDefault()
     const {username, password} = this.state
     const userDetails = {username, password}
@@ -84,12 +88,7 @@ class Login extends Component {
     const data = await response.json()
 
     if (response.ok) {
-      Cookies.set('jwt_token', data.jwt_token, {
-        expires: 1,
-      })
-      console.log(data)
-      const {history} = this.props
-      history.replace('/')
+      this.onSuccessfulLogin(data.jwt_token)
     } else {
       this.onSubmitFailure(data.error_msg)
     }
@@ -109,7 +108,7 @@ class Login extends Component {
             : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
           return (
             <LoginPage bgColor={lightMode}>
-              <LoginForm bgColor={lightMode} onSubmit={this.onSubmit}>
+              <LoginForm bgColor={lightMode} onSubmit={this.onSubmitForm}>
                 <img src={loginLogo} alt="website logo" className="loginLogo" />
                 {this.renderUsernameField(lightMode)}
                 {this.renderPasswordField(lightMode)}
