@@ -1,0 +1,14 @@
+.homeVideosUnorderedListContainer {
+  display: flex;
+  padding-left: 0;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
