@@ -1,5 +1,5 @@
 import './index.css'
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import Cookies from 'js-cookie'
 
 import {FaMoon} from 'react-icons/fa'
@@ -7,7 +7,7 @@ import {BiSun} from 'react-icons/bi'
 import {GiHamburgerMenu} from 'react-icons/gi'
 import {FiLogOut} from 'react-icons/fi'
 
-import {LogOutBtn, IconButton} from './styledComponents'
+import {Navbar, LogOutBtn, IconButton} from './styledComponents'
 
 import ThemeContext from '../../context/ThemeContext'
 
@@ -26,8 +26,14 @@ const Header = props => {
           ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
           : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
         return (
-          <div className="header">
-            <img src={loginLogo} alt="nxt watch logo" className="websiteLogo" />
+          <Navbar bgColor={lightMode}>
+            <Link to="/" className="logoLink">
+              <img
+                src={loginLogo}
+                alt="nxt watch logo"
+                className="websiteLogo"
+              />
+            </Link>
             <div className="navOptions">
               <button
                 type="button"
@@ -59,7 +65,7 @@ const Header = props => {
                 <FiLogOut size={25} />
               </IconButton>
             </div>
-          </div>
+          </Navbar>
         )
       }}
     </ThemeContext.Consumer>

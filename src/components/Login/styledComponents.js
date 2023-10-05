@@ -23,6 +23,9 @@ export const LoginForm = styled.form`
   @media (max-width: 576px) {
     width: 80%;
   }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    width: 50%;
+  }
 `
 export const LabelName = styled.label`
   color: ${props => (props.textColor ? '#1e293b' : '#ffffff')};

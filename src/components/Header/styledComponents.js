@@ -1,5 +1,13 @@
 import styled from 'styled-components'
 
+export const Navbar = styled.div`
+  background-color: ${props => (props.bgColor ? '#ffffff' : '#231f20')};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+`
+
 export const LogOutBtn = styled.button`
   color: ${props => (props.outline ? '#3b82f6' : '#ffffff')};
   font-family: 'Roboto';

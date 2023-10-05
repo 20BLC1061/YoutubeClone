@@ -1,13 +1,44 @@
 import './index.css'
 import {Component} from 'react'
+import {Link} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
+import {AiFillHome, AiTwotoneFire} from 'react-icons/ai'
+import {SiYoutubegaming} from 'react-icons/si'
+import {MdPlaylistAdd} from 'react-icons/md'
 
 import ThemeContext from '../../context/ThemeContext'
 import Header from '../Header'
-import {HomePage} from './styledComponents'
+import {
+  HomePage,
+  LeftPannel,
+  HomeVideosUnorderedListContainer,
+  NavigationOption,
+  ContactUs,
+  SocialMedia,
+  Description,
+} from './styledComponents'
 import HomeVideos from '../HomeVideos'
 
+/*  const navigationOptions = [
+  {
+    id: 'HOME',
+    displayText: 'Home',
+  },
+  {
+    id: 'TRENDING',
+    displayText: 'Trending',
+  },
+  {
+    id: 'GAMING',
+    displayText: 'Gaming',
+  },
+  {
+    id: 'SAVED VIDEOS',
+    displayText: 'Saved Videos',
+  },
+]
+*/
 const apiStatusConstants = {
   initial: 'INITIAL',
   success: 'SUCCESS',
@@ -21,6 +52,7 @@ class Home extends Component {
     apiStatus: apiStatusConstants.initial,
     //  searchInput: '',
     homeVideosData: [],
+    //  activeNavigationId: 'HOME',
   }
 
   componentDidMount() {
@@ -64,16 +96,73 @@ class Home extends Component {
 
   onFailureApi = () => <div>Hello</div>
 
-  onSuccessApi = () => {
+  onSuccessApi = lightMode => {
     const {homeVideosData} = this.state
     return (
-      <ul className="homeVideosUnorderedListContainer">
+      <HomeVideosUnorderedListContainer bgColor={lightMode}>
         {homeVideosData.map(videoDetails => (
           <HomeVideos videoDetails={videoDetails} />
         ))}
-      </ul>
+      </HomeVideosUnorderedListContainer>
     )
   }
+
+  renderLeftPannel = lightMode => (
+    <LeftPannel bgColor={lightMode}>
+      <ul className="leftPannelUnorderedList">
+        <li className="leftPannelList">
+          <Link to="/" className="pathRouteLink">
+            <AiFillHome size={20} className="navigationIcon" />
+            <NavigationOption textColor={lightMode}>Home</NavigationOption>
+          </Link>
+        </li>
+        <li className="leftPannelList">
+          <Link to="/trending" className="pathRouteLink">
+            <AiTwotoneFire size={20} className="navigationIcon" />
+            <NavigationOption textColor={lightMode}>Trending</NavigationOption>
+          </Link>
+        </li>
+        <li className="leftPannelList">
+          <Link to="/gaming" className="pathRouteLink">
+            <SiYoutubegaming size={20} className="navigationIcon" />
+            <NavigationOption textColor={lightMode}>Gaming</NavigationOption>
+          </Link>{' '}
+        </li>
+        <li className="leftPannelList">
+          <Link to="/saved-videos" className="pathRouteLink">
+            <MdPlaylistAdd size={20} className="navigationIcon" />
+            <NavigationOption textColor={lightMode}>
+              Saved Videos
+            </NavigationOption>
+          </Link>{' '}
+        </li>
+      </ul>
+      <div>
+        <ContactUs textColor={lightMode}>CONTACT US</ContactUs>
+        <a href="https://www.facebook.com" target="self">
+          <SocialMedia
+            src="https://assets.ccbp.in/frontend/react-js/nxt-watch-facebook-logo-img.png"
+            alt="facebook logo"
+          />
+        </a>
+        <a href="https://www.twitter.com" target="self">
+          <SocialMedia
+            src="https://assets.ccbp.in/frontend/react-js/nxt-watch-twitter-logo-img.png"
+            alt="twitter logo"
+          />
+        </a>
+        <a href="https://www.linkedin.com" target="self">
+          <SocialMedia
+            src="https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png"
+            alt="linked in logo"
+          />
+        </a>
+        <Description textColor={lightMode}>
+          Enjoy! Now to see your channels and recommendations!
+        </Description>
+      </div>
+    </LeftPannel>
+  )
 
   renderLoader = () => (
     <div className="loader-container" data-testid="loader">
@@ -81,13 +170,13 @@ class Home extends Component {
     </div>
   )
 
-  renderSomething = () => {
+  renderSomething = lightMode => {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConstants.inProgress:
         return this.renderLoader()
       case apiStatusConstants.success:
-        return this.onSuccessApi()
+        return this.onSuccessApi(lightMode)
       case apiStatusConstants.failure:
         return this.onFailureApi()
       default:
@@ -101,9 +190,12 @@ class Home extends Component {
         {value => {
           const {lightMode} = value
           return (
-            <HomePage bgColor={lightMode}>
+            <HomePage bgColor={lightMode} data-testid="home">
               <Header />
-              {this.renderSomething()}
+              <div className="homeContainer">
+                {this.renderLeftPannel(lightMode)}
+                {this.renderSomething(lightMode)}
+              </div>
             </HomePage>
           )
         }}

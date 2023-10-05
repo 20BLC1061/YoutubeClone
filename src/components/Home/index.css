@@ -1,14 +1,28 @@
-.homeVideosUnorderedListContainer {
-  display: flex;
-  padding-left: 0;
-  justify-content: center;
-  width: 100%;
-  flex-wrap: wrap;
-}
 .loader-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 80%;
   height: 100vh;
+}
+.homeContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.leftPannelUnorderedList {
+  padding-left: 0;
+}
+.leftPannelList {
+  list-style-type: none;
+}
+.pathRouteLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+.navigationIcon {
+  margin-right: 10px;
+  color: #616e7c;
 }
